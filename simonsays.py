@@ -9,26 +9,35 @@ Exercises
 from random import choice
 from time import sleep
 from turtle import *
-from playsound import playsound
+from random import randrange
 
 from freegames import floor, square, vector
 
+#Colores diferentes en cada juego - Santiago Ramírez
+colorarray = ['red','blue','yellow','green','orange','blue violet','white','grey'] #Arrays con los colores claros y oscuros
+darkcolorarray = ['dark red', 'dark blue', 'khaki', 'dark green','dark orange', 'dark violet', 'light gray' , 'dim grey']
+
+panel1color = randrange(0,8) #Selecciona el indice del color al azar para cada panel
+panel2color = randrange(0,8)
+panel3color = randrange(0,8) #Luego se usan estos indices para seleccionar los colores del
+panel4color = randrange(0,8) #array en tiles y grid()
+#--------------------------------------------------------------------------------------------------------
 pattern = []
 guesses = []
 tiles = {
-    vector(0, 0): ('red', 'dark red'),
-    vector(0, -200): ('blue', 'dark blue'),
-    vector(-200, 0): ('green', 'dark green'),
-    vector(-200, -200): ('yellow', 'khaki'),
+    vector(0, 0): (colorarray[panel1color], darkcolorarray[panel1color]),
+    vector(0, -200): (colorarray[panel2color], darkcolorarray[panel2color]),
+    vector(-200, 0): (colorarray[panel3color], darkcolorarray[panel3color]),
+    vector(-200, -200): (colorarray[panel4color], darkcolorarray[panel4color]),
 }
 
 
 def grid():
     """Draw grid of tiles."""
-    square(0, 0, 200, 'dark red')
-    square(0, -200, 200, 'dark blue')
-    square(-200, 0, 200, 'dark green')
-    square(-200, -200, 200, 'khaki')
+    square(0, 0, 200, darkcolorarray[panel1color])
+    square(0, -200, 200, darkcolorarray[panel2color])
+    square(-200, 0, 200, darkcolorarray[panel3color])
+    square(-200, -200, 200, darkcolorarray[panel4color])
     update()
 
 
