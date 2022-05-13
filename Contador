@@ -1,0 +1,95 @@
+"""Simon Says
+"""
+
+from csv import writer
+from random import choice
+from sre_parse import State
+from time import sleep
+from turtle import *
+from playsound import playsound
+
+from freegames import floor, square, vector
+
+state = {'mark': None, 'taps': 0}
+writer = Turtle(visible=False)
+pattern = []
+guesses = []
+tiles = {
+    vector(0, 0): ('red', 'dark red'),
+    vector(0, -200): ('blue', 'dark blue'),
+    vector(-200, 0): ('green', 'dark green'),
+    vector(-200, -200): ('yellow', 'khaki'),
+}
+
+
+def grid():
+    """Draw grid of tiles."""
+    square(0, 0, 200, 'dark red')
+    square(0, -200, 200, 'dark blue')
+    square(-200, 0, 200, 'dark green')
+    square(-200, -200, 200, 'khaki')
+    update()
+
+
+def flash(tile):
+    """Flash tile in grid."""
+    glow, dark = tiles[tile]
+    square(tile.x, tile.y, 200, glow)
+    update()
+    sleep(0.3)
+    square(tile.x, tile.y, 200, dark)
+    update()
+    sleep(0.3)
+
+
+def grow():
+    """Grow pattern and flash tiles."""
+    tile = choice(list(tiles))
+    pattern.append(tile)
+
+    for tile in pattern:
+        flash(tile)
+
+    print('Pattern length:', len(pattern))
+    guesses.clear()
+
+
+def tap(x, y):
+    writer.undo()
+    spot = index(x, y)
+    print(spot)
+    mark = state['mark']
+    writer.write(state['taps'])
+
+    onscreenclick(None)
+    x = floor(x, 200)
+    y = floor(y, 200)
+    tile = vector(x, y)
+    index = len(guesses)
+
+    if tile != pattern[index]:
+        exit()
+
+    guesses.append(tile)
+    flash(tile)
+
+    if len(guesses) == len(pattern):
+        grow()
+
+    onscreenclick(tap)
+
+
+
+
+def start(x, y):
+    """Start game."""
+    grow()
+    onscreenclick(tap)
+
+
+setup(420, 420, 370, 0)
+hideturtle()
+tracer(False)
+grid()
+onscreenclick(start)
+done()
