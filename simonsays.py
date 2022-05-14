@@ -79,7 +79,7 @@ def tap(x, y):
     flash(tile)
 
     if len(guesses) == len(pattern):
-        grow()
+        grow() """Esta seccion identifica el numero de rondas y no el numero de taps del jugador""
 
     onscreenclick(tap)
 
